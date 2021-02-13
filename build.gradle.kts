@@ -1,5 +1,8 @@
+import com.rnett.action.githubAction
+
 plugins {
     kotlin("js") version "1.4.30"
+    id("com.github.rnett.ktjs-github-action") version "0.1.1-SNAPSHOT"
 }
 
 group = "com.github.rnett.github-actions"
@@ -15,26 +18,12 @@ dependencies {
     testImplementation(kotlin("test-js"))
 
 
-    implementation("com.github.rnett.ktjs-github-action:kotlin-js-action:0.1.0-SNAPSHOT")
+    implementation("com.github.rnett.ktjs-github-action:kotlin-js-action:0.1.1-SNAPSHOT")
 }
 
 kotlin {
     js(IR) {
-        useCommonJs()
-        browser {
-            webpackTask {
-                output.globalObject = "this" // NodeJS mode
-                this.outputFileName = "index.js"
-                sourceMaps = false
-                mode = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION
-            }
-
-            distribution{
-                directory = file("$projectDir/dist/")
-                name = "index.js"
-            }
-        }
-        binaries.executable()
+        githubAction()
     }
 }
 

@@ -15,7 +15,7 @@ suspend fun main() {
 
     val exportSecring = inputs["export-secring"]?.toLowerCase().toBoolean()
 
-    exec("gpg --batch --import", input = Buffer(secretKey))
+    exec("gpg --batch --import", input = Buffer.from(secretKey))
 
     val keyId = execAndCapture("gpg --list-secret-keys --keyid-format SHORT").stdout
         .substringAfter("sec")
