@@ -1,0 +1,16 @@
+name: 'Import GPG Key'
+description: 'Import a GPG secret key (PUT IT IN SECRETS)'
+inputs:
+  secret-key:
+    description: 'The --armor --export GPG secret key to import'
+    required: true
+  export-secring:
+    description: 'Whether to export the key to ~/.gnupg/secring.gpg'
+    required: false
+    default: 'false'
+outputs:
+  key-id:
+    description: 'The SHORT gpg secret key id'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

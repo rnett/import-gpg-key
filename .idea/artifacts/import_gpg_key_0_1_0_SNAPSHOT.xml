@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="import-gpg-key-0.1.0-SNAPSHOT">
+    <output-path>C:\Users\jimne\Google Drive\My Stuff\Github Actions\import-gpg-key\build\libs</output-path>
+    <root id="archive" name="import-gpg-key-0.1.0-SNAPSHOT.jar">
+      <element id="module-output" name="import-gpg-key.main" />
+    </root>
+  </artifact>
+</component>
