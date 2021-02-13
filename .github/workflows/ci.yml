@@ -17,10 +17,10 @@ jobs:
           java-version: 15
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build and Test
-        run: ./gradlew build
-      - name: Build index.js
-        run: ./gradlew buildIndex
+      #      - name: Build and Test
+      #        run: ./gradlew build
+      #      - name: Build index.js
+      #        run: ./gradlew buildIndex
       - id: import_gpg_key
         name: Import GPG key
         uses: rnett/import-gpg-key@v0.1
