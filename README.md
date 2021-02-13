@@ -7,7 +7,7 @@ command, and that there are no other gpg keys. May work on non-Linux, but not gu
 
 * `secret-key` - the key to import. Should br produced with `gpg --export-secret-key --armor`. Should be stored in
   project secrets, **not passed in plaintext**.
-* `export-secring` - `"true"` to export the key to `~/.gnupg/secring.gpg`
+* `export-secring` - `"true"` to export the key to `~/.gnupg/secring.gpg`. Optional, `false` by default.
 
 #### Outputs
 
