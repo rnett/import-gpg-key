@@ -22,12 +22,16 @@ kotlin {
     js(IR) {
         nodejs {
             binaries.executable()
+            distribution {
+                directory = file("$projectDir/dist/")
+                name = "full.js"
+
+            }
         }
     }
 }
 
-
-//TODO distribution isn't working
+//TODO distribution isn't working, can't make FAT Jar
 tasks.create<org.gradle.api.tasks.Copy>("buildIndex"){
     group = "build"
     dependsOn("compileProductionExecutableKotlinJs")
@@ -35,3 +39,5 @@ tasks.create<org.gradle.api.tasks.Copy>("buildIndex"){
     from("build/compileSync/kotlin/import-gpg-key.js")
     rename("import-gpg-key.js", "index.js")
 }
+
+

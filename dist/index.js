@@ -1,4 +1,34 @@
-(function (_, process, path, internal, $module$events, $module$fs, $module$net, $module$os, $module$tty, $module$_actions_core, $module$_actions_exec, $module$_actions_io) {
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd)
+    define(['exports', 'process', 'path', 'stream', 'events', 'fs', 'net', 'os', 'tty', '@actions/core', '@actions/exec', '@actions/io'], factory);
+  else if (typeof exports === 'object')
+    factory(module.exports, require('process'), require('path'), require('stream'), require('events'), require('fs'), require('net'), require('os'), require('tty'), require('@actions/core'), require('@actions/exec'), require('@actions/io'));
+  else {
+    if (typeof process === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'process' was not found. Please, check whether 'process' is loaded prior to 'import-gpg-key'.");
+    }if (typeof path === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'path' was not found. Please, check whether 'path' is loaded prior to 'import-gpg-key'.");
+    }if (typeof internal === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'stream' was not found. Please, check whether 'stream' is loaded prior to 'import-gpg-key'.");
+    }if (typeof events === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'events' was not found. Please, check whether 'events' is loaded prior to 'import-gpg-key'.");
+    }if (typeof fs === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'fs' was not found. Please, check whether 'fs' is loaded prior to 'import-gpg-key'.");
+    }if (typeof net === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'net' was not found. Please, check whether 'net' is loaded prior to 'import-gpg-key'.");
+    }if (typeof os === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'os' was not found. Please, check whether 'os' is loaded prior to 'import-gpg-key'.");
+    }if (typeof tty === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency 'tty' was not found. Please, check whether 'tty' is loaded prior to 'import-gpg-key'.");
+    }if (typeof this['@actions/core'] === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency '@actions/core' was not found. Please, check whether '@actions/core' is loaded prior to 'import-gpg-key'.");
+    }if (typeof this['@actions/exec'] === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency '@actions/exec' was not found. Please, check whether '@actions/exec' is loaded prior to 'import-gpg-key'.");
+    }if (typeof this['@actions/io'] === 'undefined') {
+      throw new Error("Error loading module 'import-gpg-key'. Its dependency '@actions/io' was not found. Please, check whether '@actions/io' is loaded prior to 'import-gpg-key'.");
+    }root['import-gpg-key'] = factory(typeof this['import-gpg-key'] === 'undefined' ? {} : this['import-gpg-key'], process, path, internal, events, fs, net, os, tty, this['@actions/core'], this['@actions/exec'], this['@actions/io']);
+  }
+}(this, function (_, process, path, internal, $module$events, $module$fs, $module$net, $module$os, $module$tty, $module$_actions_core, $module$_actions_exec, $module$_actions_io) {
   var EventEmitter = $module$events.EventEmitter;
   var existsSync = $module$fs.existsSync;
   var appendFileSync = $module$fs.appendFileSync;
@@ -10,8 +40,8 @@
   var readFileSync = $module$fs.readFileSync;
   var writeFileSync = $module$fs.writeFileSync;
   var Socket = $module$net.Socket;
-  var arch = $module$os.arch;
   var EOL = $module$os.EOL;
+  var arch = $module$os.arch;
   var homedir = $module$os.homedir;
   var WriteStream = $module$tty.WriteStream;
   var ReadStream = $module$tty.ReadStream;
@@ -5936,6 +5966,9 @@
     kind: 'class',
     interfaces: [PropertyDelegateProvider]
   };
+  function maskSecret(secret) {
+    return core_getInstance().setSecret(secret);
+  }
   function getInput_0($this, name, required) {
     var tmp;
     try {
@@ -5973,6 +6006,9 @@
   function core() {
     core_instance = this;
   }
+  core.prototype.setSecret = function (secret) {
+    setSecret(secret);
+  };
   core.prototype.getRequiredInput = function (name) {
     var tmp;
     try {
@@ -6386,8 +6422,12 @@
           case 0:
             this._exceptionState = 5;
             var tmp_0 = this;
-            var tmp_1 = inputs_getInstance().getRequired('secret-key');
-            tmp_0._secretKey0 = replace$default(tmp_1, '\\n', '\n', false, 4, null);
+            var tmp_1 = this;
+            var tmp0_also_0 = inputs_getInstance().getRequired('secret-key');
+            maskSecret(tmp0_also_0);
+            tmp_1._tmp1_also_00 = replace$default(tmp0_also_0, '\\n', '\n', false, 4, null);
+            maskSecret(this._tmp1_also_00);
+            tmp_0._secretKey1 = this._tmp1_also_00;
             var tmp_2 = this;
             var tmp0_safe_receiver = inputs_getInstance().get_15('export-secring');
             var tmp_3;
@@ -6397,9 +6437,9 @@
               tmp_3 = tmp0_safe_receiver.toLowerCase();
             }
 
-            tmp_2._exportSecring1 = toBoolean(tmp_3);
+            tmp_2._exportSecring2 = toBoolean(tmp_3);
             this._state = 1;
-            var tmp_4 = new Buffer(this._secretKey0);
+            var tmp_4 = new Buffer(this._secretKey1);
             var tmp_5 = new Long(0, 0);
             suspendResult = exec$default('gpg --batch --import', null, null, null, tmp_4, false, null, null, false, false, false, tmp_5, null, null, null, null, null, 131054, null, this);
             if (suspendResult === _get_COROUTINE_SUSPENDED_()) {
@@ -6417,18 +6457,20 @@
             }
             continue $sm;
           case 2:
-            this._ARGUMENT2 = suspendResult;
-            this._ARGUMENT3 = this._ARGUMENT2._stdout;
+            this._ARGUMENT3 = suspendResult;
+            this._ARGUMENT4 = this._ARGUMENT3._stdout;
             var tmp_7 = this;
-            tmp_7._ARGUMENT4 = substringAfter$default(this._ARGUMENT3, 'sec', null, 2, null);
+            tmp_7._ARGUMENT5 = substringAfter$default(this._ARGUMENT4, 'sec', null, 2, null);
             var tmp_8 = this;
-            tmp_8._ARGUMENT5 = substringAfter$default(this._ARGUMENT4, '/', null, 2, null);
+            tmp_8._ARGUMENT6 = substringAfter$default(this._ARGUMENT5, '/', null, 2, null);
             var tmp_9 = this;
-            tmp_9._keyId6 = substringBefore$default(this._ARGUMENT5, ' ', null, 2, null);
-            outputs_getInstance().set_1('key-id', this._keyId6);
-            if (this._exportSecring1) {
+            tmp_9._tmp2_also_07 = substringBefore$default(this._ARGUMENT6, ' ', null, 2, null);
+            maskSecret(this._tmp2_also_07);
+            this._keyId8 = this._tmp2_also_07;
+            outputs_getInstance().set_1('key-id', this._keyId8);
+            if (this._exportSecring2) {
               this._state = 3;
-              var tmp_10 = '' + 'gpg --export-secret-key ' + this._keyId6 + ' > ~/.gnupg/secring.gpg';
+              var tmp_10 = '' + 'gpg --export-secret-key ' + this._keyId8 + ' > ~/.gnupg/secring.gpg';
               var tmp_11 = new Long(0, 0);
               suspendResult = exec$default(tmp_10, null, null, null, null, false, null, null, false, false, false, tmp_11, null, null, null, null, null, 131070, null, this);
               if (suspendResult === _get_COROUTINE_SUSPENDED_()) {
@@ -6486,4 +6528,4 @@
   counter = 0;
   main(_get_EmptyContinuation_());
   return _;
-}(module.exports, require('process'), require('path'), require('stream'), require('events'), require('fs'), require('net'), require('os'), require('tty'), require('@actions/core'), require('@actions/exec'), require('@actions/io')));
+}));
