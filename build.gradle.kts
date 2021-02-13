@@ -15,7 +15,7 @@ dependencies {
     testImplementation(kotlin("test-js"))
 
 
-//    implementation("com.github.rnett.ktjs-github-action:kotlin-js-action:0.1.0-SNAPSHOT")
+    implementation("com.github.rnett.ktjs-github-action:kotlin-js-action:0.1.0-SNAPSHOT")
 }
 
 kotlin {
