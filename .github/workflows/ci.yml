@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew build
       - id: import_gpg_key
         name: Import GPG key
-        uses: rnett/import-gpg-key@v0.1
+        uses: rnett/import-gpg-key@v0.2
         with:
           secret-key: ${{ secrets.GPG_SECRET_KEY }}
 #      - name: Commit index.js
