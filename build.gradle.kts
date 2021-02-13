@@ -20,24 +20,22 @@ dependencies {
 
 kotlin {
     js(IR) {
-        nodejs {
-            binaries.executable()
-            distribution {
-                directory = file("$projectDir/dist/")
-                name = "full.js"
+        useCommonJs()
+        browser {
+            webpackTask {
+                output.globalObject = "this" // NodeJS mode
+                this.outputFileName = "index.js"
+                sourceMaps = false
+                mode = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION
+            }
 
+            distribution{
+                directory = file("$projectDir/dist/")
+                name = "index.js"
             }
         }
+        binaries.executable()
     }
-}
-
-//TODO distribution isn't working, can't make FAT Jar
-tasks.create<org.gradle.api.tasks.Copy>("buildIndex"){
-    group = "build"
-    dependsOn("compileProductionExecutableKotlinJs")
-    destinationDir = file("$projectDir/dist/")
-    from("build/compileSync/kotlin/import-gpg-key.js")
-    rename("import-gpg-key.js", "index.js")
 }
 
 
