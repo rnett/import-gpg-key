@@ -13,7 +13,7 @@ suspend fun main() {
         .replace("\\n", "\n")
         .also(::maskSecret)
 
-    val exportSecring = inputs["export-secring"]?.toLowerCase().toBoolean()
+    val exportGpgSecring = inputs["export-secring"]?.toLowerCase().toBoolean()
 
     exec("gpg --batch --import", input = Buffer.from(secretKey))
 
@@ -25,7 +25,7 @@ suspend fun main() {
 
     outputs["key-id"] = keyId
 
-    if(exportSecring){
+    if(exportGpgSecring){
         exec("gpg --export-secret-key $keyId > ~/.gnupg/secring.gpg")
     }
 }
