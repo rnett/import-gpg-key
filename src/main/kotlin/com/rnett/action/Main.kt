@@ -7,12 +7,12 @@ import com.rnett.action.core.outputs
 import com.rnett.action.exec.exec
 
 suspend fun main() {
-    val secretKey = inputs.getRequired("secret-key")
+    val secretKey = inputs["secret-key"]
         .also(::maskSecret)
         .replace("\\n", "\n")
         .also(::maskSecret)
 
-    val exportGpgSecring = inputs["export-secring"]?.toLowerCase().toBoolean()
+    val exportGpgSecring = inputs["export-secring"].toBoolean()
 
     exec.execCommand("gpg --batch --import", input = Buffer.from(secretKey))
 
