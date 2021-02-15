@@ -5,7 +5,6 @@ import com.rnett.action.core.inputs
 import com.rnett.action.core.maskSecret
 import com.rnett.action.core.outputs
 import com.rnett.action.exec.exec
-import com.rnett.action.exec.execAndCapture
 
 suspend fun main() {
     val secretKey = inputs.getRequired("secret-key")
@@ -15,9 +14,9 @@ suspend fun main() {
 
     val exportGpgSecring = inputs["export-secring"]?.toLowerCase().toBoolean()
 
-    exec("gpg --batch --import", input = Buffer.from(secretKey))
+    exec.execCommand("gpg --batch --import", input = Buffer.from(secretKey))
 
-    val keyId = execAndCapture("gpg --list-secret-keys --keyid-format SHORT").stdout
+    val keyId = exec.execCommandAndCapture("gpg --list-secret-keys --keyid-format SHORT").stdout
         .substringAfter("sec")
         .substringAfter("/")
         .substringBefore(" ")
@@ -26,6 +25,6 @@ suspend fun main() {
     outputs["key-id"] = keyId
 
     if(exportGpgSecring){
-        exec("gpg --export-secret-key $keyId > ~/.gnupg/secring.gpg")
+        exec.execCommand("gpg --export-secret-key $keyId > ~/.gnupg/secring.gpg")
     }
 }

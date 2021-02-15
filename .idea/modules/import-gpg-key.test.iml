@@ -20,5 +20,4 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-js:klib:1.4.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:atomicfu-js:klib:0.14.4" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="import-gpg-key.main" />
 </module>
