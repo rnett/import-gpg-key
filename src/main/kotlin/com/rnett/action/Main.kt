@@ -25,6 +25,6 @@ suspend fun main() {
     outputs["key-id"] = keyId
 
     if(exportGpgSecring){
-        exec.execCommand("gpg --export-secret-key $keyId > ~/.gnupg/secring.gpg")
+        exec.execShell("gpg --export-secret-key $keyId > ~/.gnupg/secring.gpg")
     }
 }
